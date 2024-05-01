@@ -20,15 +20,12 @@ app.use(express.static('public'));
 
 app.get('/car/health', (req, res) => {
     try {
-        // Make a GET request to the endpoint
         axios.get('http://carservice:8080/actuator/health')
             .then(function (response) {
-                // Handle the response here
                 const carHealth = response.data.status;
                 res.status(200).json({ carHealth });
             })
             .catch(function (error) {
-                // Handle error
                 console.error('Napaka', error);
                 res.status(500).send('Prišlo je do napake');
             });
