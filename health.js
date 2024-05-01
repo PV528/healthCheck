@@ -10,7 +10,7 @@ const app = express();
 const PORT = process.env.PORT;
 
 const grpcClient = new RentalServiceClient(
-    'localhost:9000', //tukaj mora biti url moje grpc mikrostoritve 
+    'rentalservice:9000', //tukaj mora biti url moje grpc mikrostoritve 
     grpc.credentials.createInsecure()
 );
 
@@ -21,7 +21,7 @@ app.use(express.static('public'));
 app.get('/car/health', (req, res) => {
     try {
         // Make a GET request to the endpoint
-        axios.get('http://localhost:8080/actuator/health')
+        axios.get('http://carservice:8080/actuator/health')
             .then(function (response) {
                 // Handle the response here
                 const carHealth = response.data.status;
@@ -29,12 +29,12 @@ app.get('/car/health', (req, res) => {
             })
             .catch(function (error) {
                 // Handle error
-                console.error('Error fetching car health status:', error);
-                res.status(500).send('Error fetching car health status');
+                console.error('Napaka', error);
+                res.status(500).send('Prišlo je do napake');
             });
     } catch (error) {
-        console.error('An error occurred:', error);
-        res.status(500).send('An error occurred');
+        console.error('Napaka', error);
+        res.status(500).send('Napaka');
     }
 });
 
@@ -57,24 +57,21 @@ app.get('/api/health', (req, res) => {
 
 app.get('/user/health', (req, res) => {
     try {
-        // Make a GET request to the endpoint
-        axios.get('http://localhost:8081/q/health')
+        axios.get('http://userservice:8081/q/health')
             .then(function (response) {
-                // Handle the response here
                 const carHealth = response.data.status;
                 res.status(200).json({ carHealth });
             })
             .catch(function (error) {
-                // Handle error
-                console.error('Error fetching car health status:', error);
-                res.status(500).send('Error fetching car health status');
+                console.error('Napaka', error);
+                res.status(500).send('Napaka');
             });
     } catch (error) {
-        console.error('An error occurred:', error);
-        res.status(500).send('An error occurred');
+        console.error('Napaka:', error);
+        res.status(500).send('Napaka');
     }
 });
 
 app.listen(PORT, () => {
-    console.log(`Gateway server teče na: ${PORT}`);
+    console.log(`server teče na: ${PORT}`);
 });
