@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Status</title>
+</head>
+<body>
+    <h1>Health Status</h1>
+    <div id="healthStatus"></div>
+    <div id="carHealthStatus"></div>
+    <div id="userHealthStatus"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        // Get request na končno točko v health.js (mikrostoritev 1)
+        axios.get('/car/health')
+            .then(function (response) {
+                const carHealth = response.data.carHealth;
+                document.getElementById('carHealthStatus').innerText = 'Car Health Status: ' + carHealth;
+            })
+            .catch(function (error) {
+                console.error('Error fetching car health status:', error);
+                document.getElementById('carHealthStatus').innerText = 'Error fetching car health status';
+            });
+        
+        // Get request na končno točko v health.js (mikrostoritev 2)
+        axios.get('/api/health')
+            .then(function (response) {
+                const healthStatus = response.data.status;
+                document.getElementById('healthStatus').innerText = 'Rental service health status: ' + healthStatus;
+            })
+            .catch(function (error) {
+                console.error('Napaka', error);
+                document.getElementById('healthStatus').innerText = 'Neuspešno pridobivanje statusa';
+            });
+
+        // Get request na končno točko v health.js (mikrostoritev 3)
+        axios.get('/user/health')
+            .then(function (response) {
+                const userHealth = response.data.carHealth;
+                document.getElementById('userHealthStatus').innerText = 'User Health Status: ' + userHealth;
+            })
+            .catch(function (error) {
+                console.error('Error fetching user health status:', error);
+                document.getElementById('userHealthStatus').innerText = 'Error fetching user health status';
+            });
+    </script>
+</body>
+</html>
+

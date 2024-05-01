@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package org.acme;
+
+service RentalService {
+  rpc Check(HealthCheckRequest) returns (HealthCheckResponse) {}
+}
+message HealthCheckRequest {}
+
+message HealthCheckResponse {
+  bool status = 1;
+}
+
